@@ -3,23 +3,29 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { withRouter } from "next/router";
+import { withRouter, NextRouter } from "next/router";
+
 import { List, Phone, X } from "phosphor-react";
 import ImgLogo from "public/img/SuperSolarShop Logo Rect.png";
 import { Fragment } from "react";
 
+interface WithRouterProps {
+  router: NextRouter;
+}
+
+interface NavbarProps extends WithRouterProps {}
+
 const navigation = [
   { name: "Home", href: "/", current: true },
   {
-    name: "Products",
+    name: "Produkte",
     href: "/product",
     current: false,
   },
-  { name: "Projekte", href: "/projekte", current: false },
   { name: "Über uns", href: "/ueber", current: false },
 ];
 
-const Navbar = ({ router }) => {
+const Navbar = ({ router }: NavbarProps) => {
   let path = router.pathname;
   path = "/" + path.split("/")[1];
 
@@ -71,8 +77,10 @@ const Navbar = ({ router }) => {
                   <div>
                     <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">Open user menu</span>
-                      <img
+                      <Image
                         className="h-8 w-8 rounded-full"
+                        width={256}
+                        height={256}
                         src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                         alt=""
                       />
@@ -184,22 +192,3 @@ const Navbar = ({ router }) => {
 };
 
 export default withRouter(Navbar);
-
-const CallToActionNav = () => {
-  return (
-    <Link href="#kontakt" className=" cursor-pointer">
-      <span
-        className="hover:bg-yellow hidden w-[11em]  items-center justify-center rounded-lg bg-black px-4 py-2 font-medium text-white md:flex"
-        aria-label="Angebot anfragen"
-      >
-        Angebot anfragen
-      </span>
-      <span
-        className="hover:bg-yellow flex items-center justify-center rounded-lg bg-black px-4 py-2 font-medium text-white md:hidden"
-        aria-label="Angebot anfragen"
-      >
-        <Phone size={32} />
-      </span>
-    </Link>
-  );
-};

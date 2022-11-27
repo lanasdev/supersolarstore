@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Tags from "./Tags";
 
-export default function ProductItem({ product }) {
+export default function ProductItem({ product }: any) {
   const { title, handle, description } = product;
   const image = product.images.edges[0].node;
   const minPrice = product.priceRange.minVariantPrice.amount;
@@ -28,7 +28,9 @@ export default function ProductItem({ product }) {
         <div className="flex mt-4 justify-between items-start">
           <div className="flex flex-col">
             <h3 className=" text-sm text-slate-700">{title}</h3>
-            <p className="mt-1 text-lg font-medium text-slate-900">{price} €</p>
+            <p className="mt-1 text-lg font-medium text-slate-900">
+              {parseFloat(price).toFixed(2) || price} €
+            </p>
           </div>
           <div className="flex flex-col items-end gap-2">
             <span className="text-sm text-slate-700">{product.vendor}</span>

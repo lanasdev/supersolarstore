@@ -1,6 +1,11 @@
 import { GraphQLClient } from "graphql-request";
 
-const request = ({ query, variables = {} }) => {
+type requestProps = {
+  query: string;
+  variables?: object;
+};
+
+const request = ({ query, variables = {} }: requestProps) => {
   if (!query) {
     throw new Error("No query found");
   }
