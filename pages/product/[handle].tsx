@@ -11,6 +11,7 @@ import Image from "next/image";
 
 import Tags from "../../components/Tags";
 import { VariableStatement } from "typescript";
+import { useRouter } from "next/router";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const data = await request({
@@ -171,6 +172,8 @@ const productData = {
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
 export default function ProductPage({ data }: any) {
+  const router = useRouter();
+
   const product = data.product;
   const minPrice = product.priceRange.minVariantPrice.amount;
   const maxPrice = product.priceRange.maxVariantPrice.amount;
@@ -179,6 +182,7 @@ export default function ProductPage({ data }: any) {
   const [selectedSize, setSelectedSize] = useState(
     product.variants.edges[0].node
   );
+  const [quantity, setQuantity] = useState(1);
 
   // console.log(product.variants.edges[0].node);
 
@@ -191,99 +195,55 @@ export default function ProductPage({ data }: any) {
     (edge: any) => edge.node.mediaContentType === "IMAGE"
   );
 
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    let checkoutUrl = "";
+    let cartId = "";
+    let cart = null;
+
+    // check if there is a cart in local storage
+
+    if (window.localStorage.getItem("cartId")) {
+      cartId = window.localStorage.getItem("cartId");
+      checkoutUrl = window.localStorage.getItem("checkoutUrl");
+    } else {
+      const resCart = await fetch("/api/createCart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      cart = await resCart.json();
+      checkoutUrl = cart.checkoutUrl;
+      cartId = cart.cartId;
+
+      window.localStorage.setItem("cartId", cartId);
+      window.localStorage.setItem("checkoutUrl", checkoutUrl);
+    }
+
+    const res = await fetch("/api/addToCart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        cartId: cartId,
+        variantId: selectedSize.id,
+        quantity,
+      }),
+    });
+
+    const data = await res.json();
+    console.log("data: ", data);
+    console.log("checkoutUrl: ", checkoutUrl);
+
+    router.push(checkoutUrl);
+  };
+
   return (
     <div className="">
       <div className="pt-6">
-        <nav aria-label="Breadcrumb">
-          <ol
-            role="list"
-            className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
-          >
-            <li>
-              <div className="flex items-center">
-                <Link
-                  href="/"
-                  className="mr-2 text-sm font-medium text-gray-900"
-                >
-                  Home
-                </Link>
-                <svg
-                  width={16}
-                  height={20}
-                  viewBox="0 0 16 20"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                  className="h-5 w-4 text-gray-300"
-                >
-                  <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                </svg>
-              </div>
-            </li>
-            <li className="flex items-center">
-              <Link
-                href="/products"
-                className="mr-2 text-sm font-medium text-gray-900"
-              >
-                Products
-              </Link>
-              <svg
-                width={16}
-                height={20}
-                viewBox="0 0 16 20"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                className="h-5 w-4 text-gray-300"
-              >
-                <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-              </svg>
-            </li>
-            <li className="text-sm">
-              <Link
-                href={productData.href}
-                aria-current="page"
-                className="font-medium text-gray-500 hover:text-gray-600"
-              >
-                {product.title}
-              </Link>
-            </li>
-          </ol>
-        </nav>
-
-        {/* Image gallery */}
-        {/* <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-          <div className="aspect-w-3 aspect-h-4 hidden overflow-hidden rounded-lg lg:block">
-            <img
-              src={images[0].node.image.url}
-              alt={images[0].node.alt}
-              className="h-full w-full object-cover object-center"
-            />
-          </div>
-          <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-            <div className="aspect-w-3 aspect-h-2 overflow-hidden rounded-lg">
-              <img
-                src={images[1].node.image.url}
-                alt={images[1].node.alt}
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-            <div className="aspect-w-3 aspect-h-2 overflow-hidden rounded-lg">
-              <img
-                src={productData.images[2].src}
-                alt={productData.images[2].alt}
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-          </div>
-          <div className="aspect-w-4 aspect-h-5 sm:overflow-hidden sm:rounded-lg lg:aspect-w-3 lg:aspect-h-4">
-            <img
-              src={productData.images[3].src}
-              alt={productData.images[3].alt}
-              className="h-full w-full object-cover object-center"
-            />
-          </div>
-        </div> */}
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
           {images.map((image) => (
             <Image
@@ -314,7 +274,7 @@ export default function ProductPage({ data }: any) {
               ab {parseFloat(minPrice).toFixed(2) || minPrice}€
             </p>
 
-            <form className="mt-10" action="/api/" method="post">
+            <form className="mt-10" onSubmit={(e) => handleSubmit(e)}>
               {/* Sizes */}
               <div className="mt-10">
                 <div className="flex items-center justify-between">
@@ -405,6 +365,32 @@ export default function ProductPage({ data }: any) {
                 </RadioGroup>
               </div>
 
+              {/* Quantity */}
+              <div className="mt-10">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-medium text-gray-900">
+                    Quantity
+                  </h3>
+                  <a
+                    href="#"
+                    className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                  >
+                    Limit of 5 per customer
+                  </a>
+                </div>
+
+                <div className="mt-4 flex">
+                  <input
+                    type="number"
+                    min="1"
+                    max="5"
+                    value={quantity}
+                    onChange={(e) => setQuantity(parseInt(e.target.value))}
+                    className="focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 px-4 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  />
+                </div>
+              </div>
+
               <button
                 type="submit"
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -412,6 +398,9 @@ export default function ProductPage({ data }: any) {
                 Add to bag
               </button>
             </form>
+            <button onClick={() => router.push(checkoutUrl)} className="">
+              Go to cart
+            </button>
           </div>
 
           <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pt-6 lg:pb-16 lg:pr-8">
