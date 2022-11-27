@@ -19,10 +19,10 @@ const navigation = [
   { name: "Home", href: "/", current: true },
   {
     name: "Produkte",
-    href: "/product",
+    href: "/",
     current: false,
   },
-  { name: "Über uns", href: "/ueber", current: false },
+  { name: "Cart", href: "/cart", current: false },
 ];
 
 const Navbar = ({ router }: NavbarProps) => {

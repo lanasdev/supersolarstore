@@ -101,7 +101,7 @@ export default function Home({ data }: Props) {
             <ProductItem key={product.node.handle} product={product.node} />
           ))}
         </div>
-        <pre className="pt-16">{JSON.stringify(products, null, 2)}</pre>
+        {/* <pre className="pt-16">{JSON.stringify(products, null, 2)}</pre> */}
       </main>
       <div className="py-64"></div>
     </div>

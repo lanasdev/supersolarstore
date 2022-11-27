@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Star } from "phosphor-react";
 import { RadioGroup } from "@headlessui/react";
 import clsx from "clsx";
@@ -10,8 +10,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 import Tags from "../../components/Tags";
-import { VariableStatement } from "typescript";
 import { useRouter } from "next/router";
+import GlobalContext from "lib/GlobalContext";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const data = await request({
@@ -174,6 +174,15 @@ const reviews = { href: "#", average: 4, totalCount: 117 };
 export default function ProductPage({ data }: any) {
   const router = useRouter();
 
+  const global = useContext(GlobalContext);
+
+  function updateCart(cartId: string, checkoutUrl: string) {
+    global.update({
+      cartId,
+      checkoutUrl,
+    });
+  }
+
   const product = data.product;
   const minPrice = product.priceRange.minVariantPrice.amount;
   const maxPrice = product.priceRange.maxVariantPrice.amount;
@@ -190,6 +199,9 @@ export default function ProductPage({ data }: any) {
     console.log("selectedSize: ", selectedSize);
   }, [selectedSize, selectedColor]);
 
+  let checkoutUrl = "";
+  let cartId = "";
+  let cart;
   // filter out the media that are not the mediaContentType of IMAGE
   const images = product.media.edges.filter(
     (edge: any) => edge.node.mediaContentType === "IMAGE"
@@ -198,15 +210,12 @@ export default function ProductPage({ data }: any) {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    let checkoutUrl = "";
-    let cartId = "";
-    let cart = null;
-
     // check if there is a cart in local storage
 
     if (window.localStorage.getItem("cartId")) {
       cartId = window.localStorage.getItem("cartId");
       checkoutUrl = window.localStorage.getItem("checkoutUrl");
+      updateCart(cartId, checkoutUrl);
     } else {
       const resCart = await fetch("/api/createCart", {
         method: "POST",
@@ -220,6 +229,7 @@ export default function ProductPage({ data }: any) {
 
       window.localStorage.setItem("cartId", cartId);
       window.localStorage.setItem("checkoutUrl", checkoutUrl);
+      updateCart(cartId, checkoutUrl);
     }
 
     const res = await fetch("/api/addToCart", {
@@ -238,7 +248,7 @@ export default function ProductPage({ data }: any) {
     console.log("data: ", data);
     console.log("checkoutUrl: ", checkoutUrl);
 
-    router.push(checkoutUrl);
+    // router.push(checkoutUrl);
   };
 
   return (

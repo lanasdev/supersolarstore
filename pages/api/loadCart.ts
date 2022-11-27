@@ -43,14 +43,22 @@ export default async function handler(
                   merchandise {
                     ... on ProductVariant {
                       title
+
                       product {
                         title
+                      }
+                      image {
+                        originalSrc
                       }
                       priceV2 {
                         amount
                         currencyCode
                       }
                     }
+                  }
+                  attributes {
+                    key
+                    value
                   }
                 }
               }
