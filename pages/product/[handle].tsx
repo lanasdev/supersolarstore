@@ -112,7 +112,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       data,
-      revalidate: 30,
+      revalidate: 3,
     },
   };
 };
@@ -196,7 +196,7 @@ export default function ProductPage({ data }: any) {
   // console.log(product.variants.edges[0].node);
 
   useEffect(() => {
-    console.log("selectedSize: ", selectedSize);
+    // console.log("selectedSize: ", selectedSize);
   }, [selectedSize, selectedColor]);
 
   let checkoutUrl = "";
@@ -245,8 +245,8 @@ export default function ProductPage({ data }: any) {
     });
 
     const data = await res.json();
-    console.log("data: ", data);
-    console.log("checkoutUrl: ", checkoutUrl);
+    // console.log("data: ", data);
+    // console.log("checkoutUrl: ", checkoutUrl);
 
     // router.push(checkoutUrl);
   };
@@ -449,7 +449,7 @@ export default function ProductPage({ data }: any) {
         </div>
       </div>
       <pre className="py-16">
-        <code>{JSON.stringify(data, null, 2)}</code>
+        {/* <code>{JSON.stringify(data, null, 2)}</code> */}
       </pre>
     </div>
   );

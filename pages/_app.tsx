@@ -5,6 +5,7 @@ import { Inter } from "@next/font/google";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
 import GlobalContext from "lib/GlobalContext";
+import Footer from "components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <div className={clsx(inter.className, "bg-slate-50 text-slate-900")}>
         <Navbar />
         <Component {...pageProps} />
+        <Footer />
       </div>
     </GlobalContext.Provider>
   );

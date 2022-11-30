@@ -44,7 +44,7 @@ export default function Cart() {
       });
       const data = await res.json();
 
-      console.log("cart", data.cart);
+      // console.log("cart", data.cart);
 
       setCart(data.cart);
     }
@@ -53,7 +53,7 @@ export default function Cart() {
 
   return (
     <main className="min-h-screen mx-auto container pt-24 px-8">
-      <h1 className="text-2xl font-semibold pb-16">Checkout</h1>
+      <h1 className="text-2xl font-semibold pb-16">Warenkorb</h1>
       <section className="flex flex-col justify-between">
         <ul className="flex flex-col gap-8">
           {cart ? (
@@ -66,7 +66,7 @@ export default function Cart() {
         </ul>
 
         <aside className="flex flex-col mt-16 md:mt-0 justify-between max-h-92 bg-slate-300 rounded-xl p-8">
-          <h2 className="text-2xl font-semibold">Order summery</h2>
+          <h2 className="text-2xl font-semibold">Zusammenfassung </h2>
           {/* <p>
             Subtotal:{" "}
             {cart &&
@@ -82,7 +82,7 @@ export default function Cart() {
                 cart.cart.totalTaxV2.currencyCode}
           </p> */}
           <div className="">
-            <p className=" font-semibold">
+            <p className=" pt-8 font-semibold">
               Total:{" "}
               {cart &&
                 parseFloat(cart.estimatedCost.totalAmount.amount).toFixed(2) +
