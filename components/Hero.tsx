@@ -5,15 +5,15 @@ import HeroImg from "public/img/pexels-jonas-ferlin-3025562.jpg";
 
 export default function Hero() {
   return (
-    <section className="relative ">
+    <section className="relative pb-32">
       <div className="absolute inset-0">
         <Image
           src={HeroImg}
-          className=" object-cover object-center max-h-[50vh]"
+          className=" object-cover object-center h-[35rem] "
           alt="Hero image of a solar panel"
         />
         <div
-          className="absolute inset-0 bg-gradient-to-b from-slate-900 to-transparent max-h-[50vh]"
+          className="absolute inset-0 bg-gradient-to-b from-slate-900 to-transparent h-[35rem] "
           aria-hidden="true"
         />
       </div>

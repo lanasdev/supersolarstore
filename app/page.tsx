@@ -89,9 +89,9 @@ export default async function Home() {
   const products = data.props.data.products.edges;
 
   return (
-    <div className="min-h-screen">
+    <div className=" ">
       <Hero />
-      <main className="">
+      <main className="px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
           {products.map((product: { node: { handle: string } }) => (
             <ProductItem key={product.node.handle} product={product.node} />
@@ -99,7 +99,6 @@ export default async function Home() {
         </div>
         {/* <pre className="pt-16">{JSON.stringify(products, null, 2)}</pre> */}
       </main>
-      <div className="py-64"></div>
     </div>
   );
 }

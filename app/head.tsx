@@ -6,6 +6,8 @@ export default function Head() {
       <meta name="description" content="Super Solar Store" />
       <meta name="theme-color" content="#ffffff" />
       <link rel="icon" href="/favicon.ico" />
+      {/* preconnect with  */}
+      <link rel="preconnect" href="https://cdn.shopify.com" />
     </>
   );
 }

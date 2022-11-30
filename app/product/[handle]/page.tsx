@@ -180,7 +180,7 @@ export default async function ProductPage({ params }) {
   );
 
   return (
-    <div className="">
+    <div className="px-4 md:px-8">
       <div className="pt-6">
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
           {images.map((image) => (
