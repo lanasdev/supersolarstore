@@ -5,31 +5,25 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { withRouter, NextRouter } from "next/router";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 import { List, Phone, X } from "phosphor-react";
 import ImgLogo from "public/img/SuperSolarShop Logo Rect.png";
 import { Fragment } from "react";
 
-interface WithRouterProps {
-  router: NextRouter;
-}
-
-interface NavbarProps extends WithRouterProps {}
-
 const navigation = [
   { name: "Home", href: "/", current: true },
   {
     name: "Produkte",
-    href: "/",
+    href: "/product",
     current: false,
   },
   { name: "Cart", href: "/cart", current: false },
 ];
 
-const Navbar = ({ router }: NavbarProps) => {
-  let path = router.pathname;
-  path = "/" + path.split("/")[1];
+const Navbar = () => {
+  const segment = useSelectedLayoutSegment();
+  const path = segment ? "/" + segment : "/";
 
   return (
     <Disclosure
@@ -193,4 +187,4 @@ const Navbar = ({ router }: NavbarProps) => {
   );
 };
 
-export default withRouter(Navbar);
+export default Navbar;

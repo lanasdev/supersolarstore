@@ -1,9 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
-import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { gql } from "graphql-request";
-import request from "../lib/shopify";
-import ProductItem from "../components/ProductItem";
+import request from "lib/shopify";
+import ProductItem from "components/ProductItem";
 import Hero from "components/Hero";
 
 type Product = {
@@ -38,8 +37,9 @@ type ProductProps = {
     products: Product[];
   };
 };
+export const revalidate = 5;
 
-export const getStaticProps: GetStaticProps = async () => {
+const getProducts = async () => {
   const data = await request({
     query: gql`
       query GetProducts {
@@ -80,23 +80,16 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       data,
-      revalidate: 3,
     },
   };
 };
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
-
-export default function Home({ data }: Props) {
-  const products = data.products.edges;
+export default async function Home() {
+  const data = await getProducts();
+  const products = data.props.data.products.edges;
 
   return (
     <div className="min-h-screen">
-      <Head>
-        <title>SuperSolarStore</title>
-        <meta name="description" content="SuperSolarStore" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <Hero />
       <main className="">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
