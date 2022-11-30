@@ -54,7 +54,7 @@ export default function Cart() {
   return (
     <main className="min-h-screen mx-auto container pt-24 px-8">
       <h1 className="text-2xl font-semibold pb-16">Checkout</h1>
-      <section className="flex xl:flex-row flex-col justify-between">
+      <section className="flex flex-col justify-between">
         <ul className="flex flex-col gap-8">
           {cart ? (
             cart.lines.edges.map((item, i) => (

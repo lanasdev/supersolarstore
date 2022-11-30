@@ -32,11 +32,11 @@ const Navbar = ({ router }: NavbarProps) => {
   return (
     <Disclosure
       as="nav"
-      className="group sticky top-0 z-[9999] bg-slate-300/75 backdrop-blur-2xl text-black rounded-3xl md:rounded-full mx-4 md:mx-16 my-4"
+      className="group sticky top-0 z-[9999] bg-slate-300/75 backdrop-blur-2xl text-black "
     >
       {({ open }) => (
         <>
-          <div className="mx-auto py-2 px-4 sm:px-6 lg:px-16">
+          <div className=" mx-auto py-2 px-4 sm:px-6 lg:px-16">
             <div className="relative flex h-16 items-center justify-between">
               <div className="flex flex-1 items-center justify-start sm:items-center sm:justify-between">
                 <Link href="/" className="flex flex-shrink-0 items-center">
