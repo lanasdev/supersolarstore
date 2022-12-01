@@ -23,9 +23,16 @@ export default function Hero() {
           <span className="block">Super Solar</span>
         </h1>
         <p className="mt-6 max-w-3xl text-xl text-slate-100">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Reprehenderit quos eligendi, eaque ratione ipsa, quia voluptate,
-          voluptates voluptatibus quibusdam nemo.
+          Dies ist ein Demo Shop, der zeigt, wie man mit Shopify und Next.js
+          eine headless E-Commerce Seite erstellen kann. Die Produkte sind nur
+          Beispielprodukte und können nicht gekauft werden. Der Code kann auf{" "}
+          <a
+            className="hover:underline hover:underline-offset-2"
+            href="https://github.com/lanasdev/supersolarstore"
+          >
+            Github
+          </a>{" "}
+          eingesehen werden.
         </p>
         <Link
           href="/products"

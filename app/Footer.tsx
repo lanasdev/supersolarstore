@@ -2,12 +2,7 @@
 
 import Link from "next/link";
 
-import {
-  FacebookLogo,
-  InstagramLogo,
-  TwitterLogo,
-  GithubLogo,
-} from "phosphor-react";
+import { InstagramLogo, TwitterLogo, GithubLogo } from "phosphor-react";
 
 export default function Footer() {
   return (
@@ -16,16 +11,13 @@ export default function Footer() {
         © {new Date().getFullYear()} - Super Solar Shop - All rights reserved
       </span>
       <div className="flex flex-row gap-8">
-        <Link href="https://www.facebook.com/supersolarshop">
-          <FacebookLogo size={24} />
-        </Link>
-        <Link href="https://www.instagram.com/supersolarshop">
+        <Link href="https://www.instagram.com/lanasdev">
           <InstagramLogo size={24} />
         </Link>
-        <Link href="https://www.twitter.com/supersolarshop">
+        <Link href="https://www.twitter.com/lanasdev">
           <TwitterLogo size={24} />
         </Link>
-        <Link href="https://www.github.com/supersolarshop">
+        <Link href="https://github.com/lanasdev/supersolarstore">
           <GithubLogo size={24} />
         </Link>
       </div>

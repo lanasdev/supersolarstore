@@ -77,16 +77,12 @@ const getProducts = async () => {
     `,
   });
 
-  return {
-    props: {
-      data,
-    },
-  };
+  return data;
 };
 
 export default async function Home() {
   const data = await getProducts();
-  const products = data.props.data.products.edges;
+  const products = data.products.edges;
 
   return (
     <div className=" ">
