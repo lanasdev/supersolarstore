@@ -1,13 +1,26 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
+  eslint: {
+    // Disabling on production builds because we're running checks on PRs via GitHub Actions.
+    ignoreDuringBuilds: true
+  },
   images: {
-    domains: ["images.unsplash.com", "cdn.shopify.com"],
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.shopify.com',
+        pathname: '/s/files/**'
+      }
+    ]
   },
-  reactStrictMode: true,
-  swcMinify: true,
-  experimental: {
-    appDir: true,
-  },
+  async redirects() {
+    return [
+      {
+        source: '/password',
+        destination: '/',
+        permanent: true
+      }
+    ];
+  }
 };
-
-module.exports = nextConfig;

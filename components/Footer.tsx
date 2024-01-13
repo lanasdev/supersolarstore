@@ -1,10 +1,12 @@
+"use client";
+
 import Link from "next/link";
 
 import {
   FacebookLogo,
+  GithubLogo,
   InstagramLogo,
   TwitterLogo,
-  GithubLogo,
 } from "phosphor-react";
 
 export default function Footer() {

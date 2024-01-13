@@ -1,100 +1,29 @@
-import Head from "next/head";
-import Image from "next/image";
-import { gql } from "graphql-request";
-import request from "lib/shopify";
-import ProductItem from "components/ProductItem";
-import Hero from "components/Hero";
+import { Carousel } from 'components/carousel';
+import { ThreeItemGrid } from 'components/grid/three-items';
+import Hero from 'components/hero';
+import Footer from 'components/layout/footer';
+import { Suspense } from 'react';
 
-type Product = {
-  id: string;
-  title: string;
-  handle: string;
-  description: string;
-  totalInventory: number;
-  priceRange: {
-    minVariantPrice: {
-      amount: string;
-    };
-    maxVariantPrice: {
-      amount: string;
-    };
-  };
-  productType: string;
-  vendor: string;
-  tags: string[];
-  images: {
-    edges: {
-      node: {
-        originalSrc: string;
-        altText: string;
-      };
-    }[];
-  };
+export const runtime = 'edge';
+
+export const metadata = {
+  description: 'High-performance ecommerce store built with Next.js, Vercel, and Shopify.',
+  openGraph: {
+    type: 'website'
+  }
 };
 
-type ProductProps = {
-  node: {
-    products: Product[];
-  };
-};
-export const revalidate = 5;
-
-const getProducts = async () => {
-  const data = await request({
-    query: gql`
-      query GetProducts {
-        products(first: 50) {
-          edges {
-            node {
-              id
-              title
-              handle
-              description
-              totalInventory
-              priceRange {
-                minVariantPrice {
-                  amount
-                }
-                maxVariantPrice {
-                  amount
-                }
-              }
-              images(first: 1) {
-                edges {
-                  node {
-                    originalSrc
-                    altText
-                  }
-                }
-              }
-              productType
-              vendor
-              tags
-            }
-          }
-        }
-      }
-    `,
-  });
-
-  return data;
-};
-
-export default async function Home() {
-  const data = await getProducts();
-  const products = data.products.edges;
-
+export default async function HomePage() {
   return (
-    <div className=" ">
+    <>
       <Hero />
-      <main className="px-4 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-          {products.map((product: { node: { handle: string } }) => (
-            <ProductItem key={product.node.handle} product={product.node} />
-          ))}
-        </div>
-        {/* <pre className="pt-16">{JSON.stringify(products, null, 2)}</pre> */}
-      </main>
-    </div>
+      <ThreeItemGrid />
+      <Suspense>
+        <Carousel />
+        <Suspense>
+          <Footer />
+        </Suspense>
+      </Suspense>
+    </>
   );
 }
