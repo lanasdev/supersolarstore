@@ -1,4 +1,5 @@
 const plugin = require('tailwindcss/plugin');
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -12,6 +13,11 @@ module.exports = {
         lightblue: "#306A9F",
         darkblue: "#0468BF",
         transparent: "transparent",
+        // replace neutral grey with stone grey
+
+        neutral: {
+          ...defaultTheme.colors.stone,
+        },
       },
       keyframes: {
         fadeIn: {
@@ -19,8 +25,8 @@ module.exports = {
           to: { opacity: 1 }
         },
         marquee: {
-          '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-100%)' }
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0%)' }
         },
         blink: {
           '0%': { opacity: 0.2 },
