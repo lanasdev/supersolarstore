@@ -36,6 +36,7 @@
     "react-dom": "18.2.0",
     "sanity": "3",
     "sanity-plugin-media": "^2.2.5",
+    "sanity-plugin-mux-input": "^2.2.4",
     "styled-components": "6"
   },
   "devDependencies": {
